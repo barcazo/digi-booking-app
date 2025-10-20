@@ -1,0 +1,160 @@
+databaseChangeLog:
+  - changeSet:
+      id: digi-booking-app-initial
+      author: brian.chifamba
+      changes:
+        - createSequence:
+            cycle: false
+            incrementBy: 1
+            sequenceName: primary_sequence
+            startValue: 10000
+        - createTable:
+            tableName: bookings
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: checkin_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: checkout_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: character varying(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: keycloak_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: character varying(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: character varying(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: character varying(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: character varying(255)
+              - column:
+                  name: address
+                  type: character varying(255)
+              - column:
+                  name: active
+                  type: boolean
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: rooms
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: room_number
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_type
+                  type: character varying(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: capacity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amenities
+                  type: character varying(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: boolean
+              - column:
+                  name: date_created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_bookings_user_id
+            baseTableName: bookings
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: keycloak_id
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+        - addForeignKeyConstraint:
+            constraintName: fk_bookings_room_id
+            baseTableName: bookings
+            baseColumnNames: room_id
+            referencedTableName: rooms
+            referencedColumnNames: id
+            onDelete: NO ACTION
+            onUpdate: NO ACTION

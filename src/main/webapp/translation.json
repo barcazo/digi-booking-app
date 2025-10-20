@@ -1,0 +1,175 @@
+{
+  "app": {
+    "title": "Digi Booking App"
+  },
+  "navigation": {
+    "toggle": "Toggle navigation",
+    "home": "Home",
+    "entities": "Entities",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "home": {
+    "index": {
+      "headline": "Welcome to the booking app!",
+      "text": "Your booking app..",
+      "swagger": {
+        "text": "Swagger is",
+        "link": "available here"
+      },
+      "exploreEntities": "Explore your entities"
+    }
+  },
+  "error": {
+    "page": {
+      "headline": "Error",
+      "message": "The page you are looking for is not available right now."
+    }
+  },
+  "booking": {
+    "list": {
+      "headline": "Bookings",
+      "createNew": "Create new Booking",
+      "empty": "No Bookings could be found.",
+      "sort": {
+        "id,ASC": "Sort by Id (Ascending)",
+        "checkinDate,ASC": "Sort by Checkin Date (Ascending)",
+        "checkoutDate,ASC": "Sort by Checkout Date (Ascending)"
+      },
+      "filter": "Filter by Id",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "add": {
+      "headline": "Add Booking",
+      "back": "Back to list"
+    },
+    "id": {
+      "label": "Id"
+    },
+    "checkinDate": {
+      "label": "Checkin Date"
+    },
+    "checkoutDate": {
+      "label": "Checkout Date"
+    },
+    "status": {
+      "label": "Status"
+    },
+    "user": {
+      "label": "User"
+    },
+    "room": {
+      "label": "Room"
+    },
+    "edit": {
+      "headline": "Edit Booking",
+      "back": "Back to list"
+    },
+    "create": {
+      "success": "Booking was created successfully."
+    },
+    "update": {
+      "success": "Booking was updated successfully."
+    },
+    "delete": {
+      "success": "Booking was removed successfully."
+    }
+  },
+  "room": {
+    "list": {
+      "headline": "Rooms",
+      "createNew": "Create new Room",
+      "empty": "No Rooms could be found.",
+      "sort": {
+        "id,ASC": "Sort by Id (Ascending)",
+        "roomNumber,ASC": "Sort by Room Number (Ascending)",
+        "roomType,ASC": "Sort by Room Type (Ascending)"
+      },
+      "filter": "Filter by Id",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "add": {
+      "headline": "Add Room",
+      "back": "Back to list"
+    },
+    "id": {
+      "label": "Id"
+    },
+    "roomNumber": {
+      "label": "Room Number"
+    },
+    "roomType": {
+      "label": "Room Type"
+    },
+    "capacity": {
+      "label": "Capacity"
+    },
+    "price": {
+      "label": "Price"
+    },
+    "amenities": {
+      "label": "Amenities"
+    },
+    "active": {
+      "label": "Active"
+    },
+    "edit": {
+      "headline": "Edit Room",
+      "back": "Back to list"
+    },
+    "booking": {
+      "room": {
+        "referenced": "This entity is still referenced by Booking {{id}} via field Room."
+      }
+    },
+    "create": {
+      "success": "Room was created successfully."
+    },
+    "update": {
+      "success": "Room was updated successfully."
+    },
+    "delete": {
+      "success": "Room was removed successfully."
+    }
+  },
+  "authentication": {
+    "logout": {
+      "success": "Your logout was successful."
+    }
+  },
+  "NotNull": {
+    "booking": {
+      "status": "Please select a Booking Status."
+    }
+  },
+  "select": {
+    "empty": {
+      "label": "Please select"
+    }
+  },
+  "delete": {
+    "confirm": "Do you really want to delete this element? This cannot be undone."
+  },
+  "operation": {
+    "success": "Your operation was successful."
+  },
+  "required": "Please provide a value.",
+  "maxlength": "Your value must have a length of less then ${max} characters.",
+  "valid": {
+    "number": "Please provide a valid number.",
+    "numeric": {
+      "format": "Please provide a valid numeric number.",
+      "digits": "Your provided value is out of the valid range: <{{precision}} digits>.<{{scale}} digits> expected."
+    }
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "elements": "Item {{range}} of {{total}}"
+  },
+  "searchFilter": {
+    "apply": "Apply"
+  }
+}
