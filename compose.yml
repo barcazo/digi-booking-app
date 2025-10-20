@@ -40,7 +40,9 @@ services:
       retries: 5
 
   booking-service:
-    build: ./backend/booking-service
+    build:
+      context: .
+      dockerfile: ./backend/booking-service/Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE}
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
@@ -59,7 +61,9 @@ services:
       retries: 5
 
   user-service:
-    build: ./backend/user-service
+    build:
+      context: .
+      dockerfile: ./backend/user-service/Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE}
     expose:
@@ -68,7 +72,9 @@ services:
       - internal
 
   catalog-service:
-    build: ./backend/catalog-service
+    build:
+      context: .
+      dockerfile: ./backend/catalog-service/Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE}
     expose:
@@ -77,7 +83,9 @@ services:
       - internal
 
   gateway-service:
-    build: ./backend/gateway-service
+    build:
+      context: .
+      dockerfile: ./backend/gateway-service/Dockerfile
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE}
     expose:
@@ -95,7 +103,9 @@ services:
       retries: 5
 
   frontend:
-    build: ./frontend
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
     ports:
       - "${FRONTEND_PORT}:3000"
     networks:
