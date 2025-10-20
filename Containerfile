@@ -1,5 +1,6 @@
 # Stage 1: Build the application
-FROM eclipse-temurin:21-jdk-alpine AS build
+# Use Docker format for compatibility with HEALTHCHECK
+FROM docker.io/eclipse-temurin:21-jdk-alpine AS build
 
 # Install Maven
 RUN apk add --no-cache maven
@@ -22,7 +23,8 @@ COPY tsconfig.json webpack.config.js jest.config.js jest.setup.tsx ./
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application
-FROM eclipse-temurin:21-jdk-alpine
+# Use Docker format for compatibility with HEALTHCHECK
+FROM docker.io/eclipse-temurin:21-jdk-alpine
 
 # Set working directory
 WORKDIR /app

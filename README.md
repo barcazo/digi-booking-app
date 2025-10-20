@@ -4,12 +4,12 @@ This app was created with Spring Initializer using Spring Boot 3.5.6 - tips on w
 
 ## Development
 
-When starting the application `docker compose up` is called and the app will connect to the contained services. [Docker](https://www.docker.com/get-started/) must be available on the current system.
+When starting the application `podman-compose up` is called and the app will connect to the contained services. [Podman](https://podman.io/getting-started/installation) must be available on the current system. See the `podman-instructions.md` file for detailed instructions on setting up and using Podman.
 
 Start the local infrastructure (Postgres on 5432, Keycloak on 8085):
 
 ```
-docker compose up -d
+podman-compose up -d
 ```
 
 During development it is recommended to use the profile `local`. The application has three profiles configured: `dev` (default), `local`, and `prod`. In IntelliJ `-Dspring.profiles.active=local` can be added in the VM options of the Run Configuration after enabling this property in "Modify options". Create your own `application-local.yml` file to override settings for development.
@@ -100,15 +100,23 @@ Start your application with the following command - here with the profile `produ
 java -Dspring.profiles.active=production -jar ./target/digi-booking-app-0.0.1-SNAPSHOT.jar
 ```
 
-If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=production` as environment variable when running the container.
+If required, a container image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=production` as environment variable when running the container.
 
 ```
 mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=digi.booking/digi-booking-app
 ```
 
+Alternatively, you can build an image using Podman:
+
+```
+podman build -t digi.booking/digi-booking-app -f Containerfile .
+```
+
 ## CI/CD Pipeline
 
 This project uses GitHub Actions for continuous integration and deployment. The pipeline is configured in `.github/workflows/ci-cd.yml` and consists of the following stages:
+
+> **Note:** While local development uses Podman, the CI/CD pipeline still uses Docker. This separation allows for local development with Podman's advantages while maintaining compatibility with GitHub Actions' Docker-based infrastructure.
 
 ### Build and Test
 
@@ -141,17 +149,17 @@ The following secrets need to be configured in your GitHub repository:
 
 You can test parts of the pipeline locally:
 
-```bash
+```powershell
 # Build and test frontend
 npm ci
 npm test
 npm run build
 
 # Build and test backend
-./mvnw clean verify
+.\mvnw clean verify
 
-# Build Docker image
-docker build -t digi-booking-app:local -f Containerfile .
+# Build container image with Podman
+podman build -t digi-booking-app:local -f Containerfile .
 ```
 
 ## Key Technologies
@@ -163,6 +171,7 @@ docker build -t digi-booking-app:local -f Containerfile .
 * Keycloak for authentication
 * React with Node.js v22.19.0
 * Testcontainers for integration testing
+* Podman for containerization
 
 ## Further readings
 
@@ -175,5 +184,5 @@ docker build -t digi-booking-app:local -f Containerfile .
 * [npm docs](https://docs.npmjs.com/)
 * [Tailwind CSS](https://tailwindcss.com/)
 * [GitHub Actions documentation](https://docs.github.com/en/actions)
-* [Docker documentation](https://docs.docker.com/)
+* [Podman documentation](https://docs.podman.io/)
 * [Keycloak documentation](https://www.keycloak.org/documentation)
