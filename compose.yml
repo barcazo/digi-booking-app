@@ -34,7 +34,7 @@ services:
     networks:
       - internal
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || wget -q --spider http://localhost:8080/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -53,7 +53,7 @@ services:
     depends_on:
       - postgres
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -89,7 +89,7 @@ services:
       - user-service
       - catalog-service
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8083/actuator/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -126,7 +126,6 @@ services:
   promtail:
     image: grafana/promtail:latest
     volumes:
-      - /var/log:/var/log
       - ./promtail-config.yml:/etc/promtail/config.yml
     networks:
       - internal
