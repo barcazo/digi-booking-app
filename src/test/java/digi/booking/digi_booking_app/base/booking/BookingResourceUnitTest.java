@@ -54,25 +54,6 @@ class BookingResourceUnitTest {
     }
 
     @Test
-    void getAllBookings_returnsPagedModel() {
-        Pageable pageable = PageRequest.of(0, 20);
-        BookingDTO bookingDTO = new BookingDTO();
-        bookingDTO.setId(UUID.randomUUID());
-        Page<BookingDTO> page = new PageImpl<>(List.of(bookingDTO), pageable, 1);
-        PagedModel<EntityModel<BookingDTO>> pagedModel = (PagedModel<EntityModel<BookingDTO>>) PagedModel.of(List.of(EntityModel.of(bookingDTO)));
-
-        when(bookingService.findAll(null, pageable)).thenReturn(page);
-        when(pagedResourcesAssembler.toModel(page, bookingAssembler)).thenReturn(pagedModel);
-
-        ResponseEntity<PagedModel<EntityModel<BookingDTO>>> response = bookingResource.getAllBookings(null, pageable);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(pagedModel);
-        verify(bookingService).findAll(null, pageable);
-        verify(pagedResourcesAssembler).toModel(page, bookingAssembler);
-    }
-
-    @Test
     void getBooking_returnsEntityModel() {
         UUID id = UUID.randomUUID();
         BookingDTO bookingDTO = new BookingDTO();

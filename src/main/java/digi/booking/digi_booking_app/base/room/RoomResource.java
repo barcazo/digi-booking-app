@@ -2,7 +2,6 @@ package digi.booking.digi_booking_app.base.room;
 
 import digi.booking.digi_booking_app.base.RoomService;
 import digi.booking.digi_booking_app.base.model.SimpleValue;
-import digi.booking.digi_booking_app.base.security.UserRoles;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -21,7 +20,6 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

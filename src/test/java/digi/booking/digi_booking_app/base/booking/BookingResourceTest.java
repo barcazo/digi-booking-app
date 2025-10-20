@@ -21,7 +21,7 @@ import org.springframework.test.context.jdbc.Sql;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         mode = ApplicationModuleTest.BootstrapMode.ALL_DEPENDENCIES
 )
-public class BookingResourceTest extends BaseIT {
+class BookingResourceTest extends BaseIT {
 
     @Autowired
     public BookingRepository bookingRepository;

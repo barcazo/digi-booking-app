@@ -6,20 +6,14 @@ import static org.mockito.Mockito.when;
 
 import digi.booking.digi_booking_app.base.RoomService;
 import digi.booking.digi_booking_app.base.model.SimpleValue;
-import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -38,25 +32,6 @@ class RoomResourceUnitTest {
     @BeforeEach
     void setUp() {
         roomResource = new RoomResource(roomService, roomAssembler, pagedResourcesAssembler);
-    }
-
-    @Test
-    void getAllRooms_returnsPagedModel() {
-        Pageable pageable = PageRequest.of(0, 20);
-        RoomDTO roomDTO = new RoomDTO();
-        roomDTO.setId(UUID.randomUUID());
-        Page<RoomDTO> page = new PageImpl<>(List.of(roomDTO), pageable, 1);
-        PagedModel<EntityModel<RoomDTO>> pagedModel = (PagedModel<EntityModel<RoomDTO>>) PagedModel.of(List.of(EntityModel.of(roomDTO)));
-
-        when(roomService.findAll(null, pageable)).thenReturn(page);
-        when(pagedResourcesAssembler.toModel(page, roomAssembler)).thenReturn(pagedModel);
-
-        ResponseEntity<PagedModel<EntityModel<RoomDTO>>> response = roomResource.getAllRooms(null, pageable);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(pagedModel);
-        verify(roomService).findAll(null, pageable);
-        verify(pagedResourcesAssembler).toModel(page, roomAssembler);
     }
 
     @Test

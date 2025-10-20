@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import digi.booking.digi_booking_app.base.util.CustomCollectors;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;

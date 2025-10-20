@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping(value = "/api/v1/v1/bookings", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/bookings", produces = MediaType.APPLICATION_JSON_VALUE)
 @SecurityRequirement(name = "bearer-jwt")
 public class BookingResource {
 

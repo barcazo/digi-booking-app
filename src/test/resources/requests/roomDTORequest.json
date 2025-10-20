@@ -1,8 +1,8 @@
 {
-  "roomNumber" : 77,
-  "roomType" : "Xed diam nonumy.",
-  "capacity" : 39,
-  "price" : "16.08",
-  "amenities" : "Duis autem vel.",
-  "active" : false
+  "roomNumber": 77,
+  "roomType": "Deluxe",
+  "capacity": 2,
+  "price": "150.00",
+  "amenities": "WiFi, TV, Mini Bar",
+  "active": true
 }

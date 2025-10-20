@@ -4,9 +4,6 @@ FROM eclipse-temurin:21-jdk-alpine AS build
 # Install Maven
 RUN apk add --no-cache maven
 
-# Create a non-root user for security
-RUN addgroup -S spring && adduser -S spring -G spring
-
 # Set working directory
 WORKDIR /app
 
@@ -40,5 +37,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl -f http://localhost:8080/actuator/health || exit 1
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application with booking service profile
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=booking-service", "--server.port=8080"]

@@ -4,7 +4,6 @@ import digi.booking.digi_booking_app.base.BookingService;
 import digi.booking.digi_booking_app.base.events.BeforeDeleteRoom;
 import digi.booking.digi_booking_app.base.exception.RoomNotAvailableException;
 import digi.booking.digi_booking_app.base.room.Room;
-import digi.booking.digi_booking_app.base.room.RoomDTO;
 import digi.booking.digi_booking_app.base.room.RoomRepository;
 import digi.booking.digi_booking_app.base.user.User;
 import digi.booking.digi_booking_app.base.user.UserRepository;

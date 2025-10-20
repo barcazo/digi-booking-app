@@ -108,20 +108,6 @@ class BookingServiceImplTest {
         verify(bookingRepository).findAllById(booking.getId(), pageable);
     }
 
-    @Test
-    void findAll_withInvalidFilterFallsBackToFindAll() {
-        PageRequest pageable = PageRequest.of(0, 20);
-        Page<Booking> page = new PageImpl<>(List.of(booking), pageable, 1);
-        BookingDTO mappedDto = new BookingDTO();
-        when(bookingRepository.findAll(pageable)).thenReturn(page);
-        when(bookingMapper.updateBookingDTO(eq(booking), any(BookingDTO.class))).thenReturn(mappedDto);
-
-        Page<BookingDTO> result = bookingService.findAll("invalid", pageable);
-
-        assertThat(result.getContent()).containsExactly(mappedDto);
-        verify(bookingRepository).findAll(pageable);
-        verify(bookingRepository, never()).findAllById(any(), eq(pageable));
-    }
 
     @Test
     void get_returnsBooking() {

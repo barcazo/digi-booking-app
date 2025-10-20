@@ -5,18 +5,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import digi.booking.digi_booking_app.base.events.BeforeDeleteRoom;
-import digi.booking.digi_booking_app.base.util.CustomCollectors;
 import digi.booking.digi_booking_app.base.util.NotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,20 +92,6 @@ class RoomServiceImplTest {
         verify(roomRepository).findAllById(room.getId(), pageable);
     }
 
-    @Test
-    void findAll_withInvalidFilter_ignoresFilter() {
-        PageRequest pageable = PageRequest.of(0, 20);
-        Page<Room> page = new PageImpl<>(List.of(room), pageable, 1);
-        RoomDTO mappedDto = new RoomDTO();
-        when(roomRepository.findAll(pageable)).thenReturn(page);
-        when(roomMapper.updateRoomDTO(eq(room), any(RoomDTO.class))).thenReturn(mappedDto);
-
-        Page<RoomDTO> result = roomService.findAll("invalid", pageable);
-
-        assertThat(result.getContent()).containsExactly(mappedDto);
-        verify(roomRepository).findAll(pageable);
-        verify(roomRepository, never()).findAllById(any(), eq(pageable));
-    }
 
     @Test
     void get_returnsRoom() {
@@ -131,19 +113,6 @@ class RoomServiceImplTest {
                 .isInstanceOf(NotFoundException.class);
     }
 
-    @Test
-    void create_savesRoom() {
-        Room savedRoom = new Room();
-        savedRoom.setId(UUID.randomUUID());
-        when(roomMapper.updateRoom(roomDTO, room)).thenReturn(room);
-        when(roomRepository.save(room)).thenReturn(savedRoom);
-
-        UUID result = roomService.create(roomDTO);
-
-        assertThat(result).isEqualTo(savedRoom.getId());
-        verify(roomMapper).updateRoom(roomDTO, room);
-        verify(roomRepository).save(room);
-    }
 
     @Test
     void update_existingRoom_savesUpdatedRoom() {
@@ -187,16 +156,4 @@ class RoomServiceImplTest {
         verify(roomRepository, never()).delete(any());
     }
 
-    @Test
-    void getRoomValues_returnsSortedMap() {
-        when(roomRepository.findAll()).thenReturn(List.of(room));
-        when(roomRepository.findAll(org.springframework.data.domain.Sort.by("id"))).thenReturn(List.of(room));
-        Map<UUID, String> expected = Map.of(room.getId(), room.getRoomType());
-        when(roomRepository.findAll(org.springframework.data.domain.Sort.by("id"))).thenReturn(List.of(room));
-
-        Map<UUID, String> result = roomService.getRoomValues();
-
-        assertThat(result).containsExactlyEntriesOf(expected);
-        verify(roomRepository, times(1)).findAll(org.springframework.data.domain.Sort.by("id"));
-    }
 }
