@@ -16,7 +16,7 @@ module.exports = (env, argv) => ({
   output: {
     path: path.resolve(__dirname, './target/classes/static'),
     filename: 'js/[name].js',
-    publicPath: '/'
+    publicPath: ''
   },
   devtool: argv.mode === 'production' ? false : 'eval-source-map',
   performance: {
@@ -35,7 +35,8 @@ module.exports = (env, argv) => ({
       filename: 'css/[name].css'
     }),
     new Dotenv({
-      path: argv.mode === 'production' ? '.env' : '.env.development'
+      path: argv.mode === 'production' ? '.env' : '.env.development',
+      systemvars: true
     }),
     new HtmlWebpackPlugin({
       template: './src/main/webapp/index.html'

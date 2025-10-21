@@ -36,10 +36,11 @@ export const AuthenticationProvider = ({ children }: AuthenticationProviderParam
 
   const initKeycloak = async () => {
     const instance = new Keycloak({
-          url: process.env.KEYCLOAK_URL!,
-          realm: process.env.KEYCLOAK_REALM!,
-          clientId: process.env.KEYCLOAK_CLIENT_ID!
+          url: process.env.KEYCLOAK_URL || 'http://localhost:8085',
+          realm: process.env.KEYCLOAK_REALM || 'digi-id',
+          clientId: process.env.KEYCLOAK_CLIENT_ID || 'digi-id'
         });
+    console.log('Keycloak URL:', process.env.KEYCLOAK_URL);
     await instance.init({
       onLoad: 'check-sso',
       silentCheckSsoRedirectUri: location.origin + '/silent-check-sso.html'

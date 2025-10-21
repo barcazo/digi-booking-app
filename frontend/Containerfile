@@ -15,6 +15,10 @@ RUN npm ci
 COPY tsconfig.json webpack.config.js jest.config.js jest.setup.tsx ./
 COPY src/main/webapp ./src/main/webapp
 
+# Set build-time environment variable
+ARG API_PATH=http://backend:8080
+ENV API_PATH=${API_PATH}
+
 # Build the frontend
 RUN npm run build
 
