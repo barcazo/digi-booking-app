@@ -2,12 +2,10 @@ package digi.booking.digi_booking_app.base.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import digi.booking.digi_booking_app.base.security.UserRoles;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;

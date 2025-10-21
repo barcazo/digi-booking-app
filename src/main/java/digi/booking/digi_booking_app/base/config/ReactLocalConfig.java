@@ -17,7 +17,12 @@ public class ReactLocalConfig {
 
             @Override
             public void addCorsMappings(final CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**")
+                        .allowedMethods("*")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowCredentials(true)
+                        .allowedHeaders("*")
+                        .exposedHeaders("*");
             }
 
         };
