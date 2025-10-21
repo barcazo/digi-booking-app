@@ -15,6 +15,12 @@
 
     <properties>
         <java.version>21</java.version>
+        <skipNodeInstall>false</skipNodeInstall>
+        <skipNpmInstall>false</skipNpmInstall>
+        <!-- Maven performance settings -->
+        <maven.compiler.fork>true</maven.compiler.fork>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -140,6 +146,7 @@
 
     <build>
         <plugins>
+            <!-- Spring Boot Plugin (unchanged) -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -175,6 +182,36 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <!-- Exec Plugin: Scoped Node.js -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>kill-specific-node-process</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>sh</executable>
+                            <arguments>
+                                <argument>-c</argument>
+                                <argument>
+                                    <![CDATA[
+                                        pgrep -fl node | grep "server.js" | grep "node.exe" | awk '{print $1}' | xargs -r kill -9 || true
+                                    ]]>
+                                </argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- Frontend Plugin -->
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
@@ -185,6 +222,9 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
+                        <configuration>
+                            <skip>${skipNodeInstall}</skip>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>npmInstall</id>
@@ -192,7 +232,8 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>ci --prefer-offline --no-audit --no-fund</arguments>
+                            <skip>${skipNpmInstall}</skip>
                         </configuration>
                     </execution>
                     <execution>
@@ -207,8 +248,11 @@
                 </executions>
                 <configuration>
                     <nodeVersion>v22.19.0</nodeVersion>
+                    <installDirectory>.node</installDirectory>
                 </configuration>
             </plugin>
+
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -216,6 +260,10 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <fork>${maven.compiler.fork}</fork>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -237,4 +285,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

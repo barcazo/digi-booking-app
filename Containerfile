@@ -1,9 +1,8 @@
 # Stage 1: Build the application
-# Use Docker format for compatibility with HEALTHCHECK
-FROM docker.io/eclipse-temurin:21-jdk-alpine AS build
+FROM eclipse-temurin:21-jdk-alpine AS build
 
-# Install Maven
-RUN apk add --no-cache maven
+# Install Maven and Node.js LTS from Alpine's package repo
+RUN apk add --no-cache maven nodejs npm
 
 # Create a non-root user for security
 RUN addgroup -S spring && adduser -S spring -G spring
@@ -11,20 +10,25 @@ RUN addgroup -S spring && adduser -S spring -G spring
 # Set working directory
 WORKDIR /app
 
-# Copy pom.xml and package.json first for better caching
+# Copy dependency files first for better caching
 COPY pom.xml .
 COPY package.json package-lock.json ./
 
-# Copy source code
+# Download Maven dependencies first
+RUN mvn dependency:go-offline -B -T 4
+
+# Install frontend dependencies
+RUN npm ci --prefer-offline --no-audit --no-fund
+
+# Copy source code and config files
 COPY src ./src
 COPY tsconfig.json webpack.config.js jest.config.js jest.setup.tsx ./
 
-# Build the application (both backend and frontend)
-RUN mvn clean package -DskipTests
+# Build the application (both backend and frontend) with parallel builds
+RUN mvn package -DskipTests -B -T 4 -Dmaven.test.skip=true
 
 # Stage 2: Run the application
-# Use Docker format for compatibility with HEALTHCHECK
-FROM docker.io/eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jdk-alpine
 
 # Set working directory
 WORKDIR /app
